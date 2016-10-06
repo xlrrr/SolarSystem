@@ -1,13 +1,13 @@
 #include <windows.h>
 #include <windowsx.h>
 #include "Window.h"
-
+#include "DXRenderer.h"
 
 
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow)
 {
 	Window window(1024, 768, hInstance);
-
+	DXRenderer renderer(window);
 	MSG msg;
 	while (true)
 	{
