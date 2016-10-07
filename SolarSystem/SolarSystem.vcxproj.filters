@@ -24,6 +24,9 @@
     <ClCompile Include="DXRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -32,5 +35,12 @@
     <ClInclude Include="DXRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="SphereVertexShader.hlsl" />
+    <FxCompile Include="SpherePixelShader.hlsl" />
   </ItemGroup>
 </Project>
