@@ -19,6 +19,8 @@ public:
 	~DXRenderer();
 	ID3D11Device* getDevice();
 	ID3D11DeviceContext* getDeviceContext();
+	ID3D11RenderTargetView* getRenderTargetView();
+	IDXGISwapChain* getSwapChain();
 	void beginFrame();
 	void endFrame();
 };

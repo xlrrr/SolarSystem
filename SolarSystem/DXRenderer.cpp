@@ -1,5 +1,20 @@
 #include "DXRenderer.h"
 
+DXRenderer::DXRenderer(Window & window)
+{
+	m_swapChain = nullptr;
+	m_device = nullptr;
+	m_deviceContext = nullptr;
+	m_renderTargetView = nullptr;
+	m_depthStencilState = nullptr;
+	m_depthStencilView = nullptr;
+	m_depthStencilBuffer = nullptr;
+	createDevice(window);
+	createRenderTarget();
+	createDepthBuffer();
+}
+
+
 void DXRenderer::createDevice(Window & window)
 {
 	//Define swap chain
@@ -11,9 +26,18 @@ void DXRenderer::createDevice(Window & window)
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.Windowed = true;
 	//Create swap chain and device
-	auto result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0,
-		nullptr, 0, D3D11_SDK_VERSION, &swapChainDesc,
-		&m_swapChain, &m_device, nullptr, &m_deviceContext);
+	auto result = D3D11CreateDeviceAndSwapChain(nullptr,
+		D3D_DRIVER_TYPE_HARDWARE,
+		nullptr,
+		D3D11_CREATE_DEVICE_DEBUG,
+		nullptr,
+		0,
+		D3D11_SDK_VERSION,
+		&swapChainDesc,
+		&m_swapChain,
+		&m_device,
+		nullptr,
+		&m_deviceContext);
 	if (result == S_OK) {
 		MessageBox(nullptr, "DirectX 11 Initialized", "Success", MB_OK);
 	}
@@ -83,20 +107,6 @@ void DXRenderer::createDepthBuffer()
 
 }
 
-DXRenderer::DXRenderer(Window & window)
-{
-	m_swapChain = nullptr;
-	m_device = nullptr;
-	m_deviceContext = nullptr;
-	m_renderTargetView = nullptr;
-	m_depthStencilState = nullptr;
-	m_depthStencilView = nullptr;
-	m_depthStencilBuffer = nullptr;
-	createDevice(window);
-	createRenderTarget();
-	createDepthBuffer();
-	
-}
 
 void DXRenderer::beginFrame()
 {
@@ -105,6 +115,7 @@ void DXRenderer::beginFrame()
 	//Set viewport
 	auto viewport = CD3D11_VIEWPORT(0.f, 0.f, 1024.f, 768.f);
 	m_deviceContext->RSSetViewports(1, &viewport);
+
 	//Setting bg color
 	float color[] = { .25f, .1f,.25f,1 };
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);
@@ -122,6 +133,9 @@ DXRenderer::~DXRenderer()
 	m_device->Release();
 	m_deviceContext->Release();
 	m_renderTargetView->Release();
+	m_depthStencilState->Release();
+	m_depthStencilView->Release();
+		m_depthStencilBuffer->Release();
 }
 
 ID3D11Device * DXRenderer::getDevice()
@@ -132,4 +146,14 @@ ID3D11Device * DXRenderer::getDevice()
 ID3D11DeviceContext * DXRenderer::getDeviceContext()
 {
 	return m_deviceContext;
+}
+
+ID3D11RenderTargetView * DXRenderer::getRenderTargetView()
+{
+	return m_renderTargetView;
+}
+
+IDXGISwapChain * DXRenderer::getSwapChain()
+{
+	return m_swapChain;
 }
